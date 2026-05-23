@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
-import { signInWithRedirect, signOut } from "aws-amplify/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "aws-amplify/auth";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="border-b">
@@ -33,11 +34,8 @@ export default function Header() {
               </Button>
             </>
           ) : (
-            <Button
-              size="sm"
-              onClick={() => void signInWithRedirect({ provider: "Google" })}
-            >
-              Sign in with Google
+            <Button size="sm" onClick={() => navigate("/signin")}>
+              Sign in
             </Button>
           )}
         </div>

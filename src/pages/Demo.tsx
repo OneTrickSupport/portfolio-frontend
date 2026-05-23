@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { api, type Item } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signInWithRedirect } from "aws-amplify/auth";
 
 export default function Demo() {
   const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [content, setContent] = useState("");
   const qc = useQueryClient();
 
@@ -40,11 +41,9 @@ export default function Demo() {
       <div className="max-w-md space-y-4">
         <h1 className="text-3xl font-bold">DynamoDB demo</h1>
         <p className="text-muted-foreground">
-          Sign in to add items. Items are isolated per Google account.
+          Sign in to add items. Items are isolated per account.
         </p>
-        <Button onClick={() => void signInWithRedirect({ provider: "Google" })}>
-          Sign in with Google
-        </Button>
+        <Button onClick={() => navigate("/signin")}>Sign in</Button>
       </div>
     );
   }
