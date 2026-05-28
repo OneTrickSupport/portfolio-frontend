@@ -9,36 +9,49 @@ export default function Header() {
 
   return (
     <header className="border-b sticky top-0 z-50 bg-background shadow-sm">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="font-bold text-lg">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <Link
+            to="/"
+            style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontVariationSettings: '"opsz" 12, "wght" 700' }}
+            className="text-lg leading-none select-none"
+          >
             Karl Nilros
           </Link>
-          <nav className="hidden md:flex items-center gap-4 text-sm">
-            <a href="#about" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
-              About
-            </a>
-            <a href="#skills" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
-              Skills
-            </a>
-            <a href="#projects" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
-              Projects
-            </a>
-            <a href="#experience" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
-              Experience
-            </a>
-            <a href="#contact" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
-              Contact
-            </a>
-            <Link to="/demo" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
+          <nav className="hidden md:flex items-center gap-6">
+            {[
+              { href: "#about", label: "About" },
+              { href: "#skills", label: "Skills" },
+              { href: "#projects", label: "Projects" },
+              { href: "#experience", label: "Experience" },
+              { href: "#contact", label: "Contact" },
+            ].map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                style={{ fontFamily: 'var(--font-mono-accent)', fontSize: '0.7rem', letterSpacing: '0.08em' }}
+                className="uppercase text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {label}
+              </a>
+            ))}
+            <Link
+              to="/demo"
+              style={{ fontFamily: 'var(--font-mono-accent)', fontSize: '0.7rem', letterSpacing: '0.08em' }}
+              className="uppercase text-muted-foreground hover:text-foreground transition-colors"
+            >
               Demo
             </Link>
           </nav>
         </div>
+
         <div className="flex items-center gap-3">
           {loading ? null : user ? (
             <>
-              <span className="text-sm text-muted-foreground">
+              <span
+                style={{ fontFamily: 'var(--font-mono-accent)', fontSize: '0.7rem' }}
+                className="text-muted-foreground hidden sm:block"
+              >
                 {user.email ?? user.username}
               </span>
               <Button variant="outline" size="sm" onClick={() => void signOut()}>
