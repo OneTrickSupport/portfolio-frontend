@@ -15,7 +15,7 @@ export default function App() {
           <Route path="/demo" element={<Demo />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/callback" element={<Callback />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+<Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
     </div>
