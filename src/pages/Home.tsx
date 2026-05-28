@@ -39,7 +39,7 @@ export default function Home() {
       {/* Hero */}
       <section
         id="hero"
-        className="-mt-8 -mx-4 px-4 py-28 text-center border-b bg-muted/40"
+        className="-mt-8 -mx-4 px-4 py-28 text-center border-b bg-muted/60"
       >
         <p className="text-sm font-semibold tracking-widest uppercase text-muted-foreground mb-4">
           Full-Stack Engineer
