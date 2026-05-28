@@ -38,25 +38,41 @@ export default function Demo() {
 
   if (!user) {
     return (
-      <div className="max-w-md space-y-4">
+      <div className="max-w-lg space-y-4">
         <h1 className="text-3xl font-bold">DynamoDB demo</h1>
         <p className="text-muted-foreground">
-          Sign in to add items. Items are isolated per account.
+          Yes, this is a real database. No, it's not just a fancy list stored in{" "}
+          <code>localStorage</code>. 😄
         </p>
-        <Button onClick={() => navigate("/signin")}>Sign in</Button>
+        <p className="text-sm text-muted-foreground">
+          Sign in and type something — it goes through a Fastify API on AWS Lambda, gets written
+          to DynamoDB, and comes back when you refresh. Purely here to prove the backend
+          integration is real and not just vibes.
+        </p>
+        <Button onClick={() => navigate("/signin")}>Sign in to try it</Button>
       </div>
     );
   }
 
   return (
     <div className="max-w-xl space-y-6">
-      <div>
+      <div className="space-y-1">
         <h1 className="text-3xl font-bold">DynamoDB demo</h1>
-        <p className="text-sm text-muted-foreground">
-          Signed in as {user.email ?? user.username}. Each item lands in the{" "}
-          <code>portfolio-items</code> table with your Cognito <code>sub</code> as
-          the partition key.
+        <p className="text-muted-foreground">
+          Yes, this is a real database. No, it's not just a fancy list stored in{" "}
+          <code>localStorage</code>. 😄
         </p>
+        <p className="text-sm text-muted-foreground">
+          Type something below — it goes through a Fastify API on AWS Lambda, gets written to
+          DynamoDB, and comes back when you refresh. Purely here to prove the backend integration
+          is real and not just vibes.
+        </p>
+      </div>
+
+      <div className="rounded-md border border-dashed px-4 py-3 text-sm text-muted-foreground bg-muted/40">
+        <span className="font-medium text-foreground">Stack:</span> React Query → Fastify (AWS Lambda) → DynamoDB.
+        Auth via Cognito — your items are isolated to your account using your{" "}
+        <code>sub</code> as the partition key.
       </div>
 
       <form
