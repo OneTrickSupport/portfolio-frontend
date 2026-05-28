@@ -17,7 +17,7 @@ export async function api<T = unknown>(
   init: RequestInit = {},
 ): Promise<T> {
   const headers: Record<string, string> = {
-    "Content-Type": "application/json",
+    ...(init.body != null ? { "Content-Type": "application/json" } : {}),
     ...((init.headers as Record<string, string> | undefined) ?? {}),
     ...(await authHeader()),
   };
