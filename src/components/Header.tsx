@@ -8,17 +8,29 @@ export default function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="border-b">
+    <header className="border-b sticky top-0 z-50 bg-background/95 backdrop-blur">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="font-bold text-lg">
-            OneTrickSupport
+            Karl Nilros
           </Link>
-          <nav className="flex items-center gap-4 text-sm">
-            <Link to="/" className="hover:underline">
-              Home
-            </Link>
-            <Link to="/demo" className="hover:underline">
+          <nav className="hidden md:flex items-center gap-4 text-sm">
+            <a href="#about" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
+              About
+            </a>
+            <a href="#skills" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
+              Skills
+            </a>
+            <a href="#projects" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
+              Projects
+            </a>
+            <a href="#experience" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
+              Experience
+            </a>
+            <a href="#contact" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
+              Contact
+            </a>
+            <Link to="/demo" className="hover:underline text-muted-foreground hover:text-foreground transition-colors">
               Demo
             </Link>
           </nav>
