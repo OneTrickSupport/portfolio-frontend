@@ -20,14 +20,24 @@ const page = await browser.newPage();
 await page.setViewportSize({ width: 1440, height: 900 });
 await page.goto('http://localhost:5173', { waitUntil: 'networkidle' });
 
+const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
+
+// Scroll the full page first so IntersectionObserver fires for all sections
+await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+await page.waitForTimeout(800);
+await page.evaluate(() => window.scrollTo(0, 0));
+await page.waitForTimeout(400);
+
 const shots = [
-  { name: 'full',       fn: () => page.screenshot({ path: `${OUT}/full.png`, fullPage: true }) },
-  { name: 'hero',       fn: () => page.locator('#hero').screenshot({ path: `${OUT}/hero.png` }) },
-  { name: 'about',      fn: () => page.locator('#about').screenshot({ path: `${OUT}/about.png` }) },
-  { name: 'skills',     fn: () => page.locator('#skills').screenshot({ path: `${OUT}/skills.png` }) },
-  { name: 'projects',   fn: () => page.locator('#projects').screenshot({ path: `${OUT}/projects.png` }) },
-  { name: 'experience', fn: () => page.locator('#experience').screenshot({ path: `${OUT}/experience.png` }) },
-  { name: 'contact',    fn: () => page.locator('#contact').screenshot({ path: `${OUT}/contact.png` }) },
+  { name: 'full', fn: () => page.screenshot({ path: `${OUT}/full.png`, fullPage: true }) },
+  ...sections.map((id) => ({
+    name: id,
+    fn: async () => {
+      await page.locator(`#${id}`).scrollIntoViewIfNeeded();
+      await page.waitForTimeout(500);
+      return page.locator(`#${id}`).screenshot({ path: `${OUT}/${id}.png` });
+    },
+  })),
 ];
 
 for (const { fn } of shots) await fn();
