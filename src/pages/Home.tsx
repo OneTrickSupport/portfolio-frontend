@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import RecentActivity from "@/components/RecentActivity";
 
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono-accent)' };
 const display: React.CSSProperties = { fontFamily: 'var(--font-display)' };
@@ -257,6 +258,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── Recent Activity ────────────────────────────────── */}
+      <RecentActivity />
 
       {/* ── Experience ─────────────────────────────────────── */}
       <section

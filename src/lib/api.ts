@@ -36,3 +36,15 @@ export type Item = {
   content: string;
   createdAt: string;
 };
+
+export type ActivityItem = {
+  id: string;
+  kind: "commit" | "pull_request" | "release" | "repo";
+  title: string;
+  ref?: string;
+  repo: string;
+  repoName: string;
+  repoUrl: string;
+  url: string;
+  date: string;
+};
