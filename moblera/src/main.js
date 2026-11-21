@@ -40,13 +40,18 @@ window.addEventListener('keydown', (e) => {
 });
 
 // #3d öppnar 3D-vyn direkt, #walls öppnar väggläget
+// Planeraren öppnar i 3D. #plan öppnar planvyn och #walls väggläget; utan stöd för 3D (WebGL) blir det planvyn.
 const hash = location.hash.slice(1);
-if (hash.startsWith('3d')) {
+const has3d = (() => {
+  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; }
+})();
+if (hash === 'walls') setTool('walls');
+else if (hash === 'plan' || hash === '2d' || !has3d) emit('view');
+else {
   setView('3d');
   if (hash === '3d-walk') V3.setWalk(true);
   if (hash === '3d-top') V3.topView();
-} else if (hash === 'walls') setTool('walls');
-else emit('view');
+}
 
 // för felsökning i webbläsarens konsol
 window.moblera = { app, setFocus };
