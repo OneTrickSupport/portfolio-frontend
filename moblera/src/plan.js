@@ -147,3 +147,13 @@ export function buildDefaultPlan() {
 }
 
 export { CATALOG };
+
+/**
+ * Lägenheten som den ser ut på planritningen: väggar, dörrar, fönster och fast inredning
+ * (kök, badrum, garderober), men inga lösa möbler. Här börjar ett nytt förslag.
+ */
+export function buildEmptyPlan() {
+  const plan = buildDefaultPlan();
+  plan.items = plan.items.filter((it) => it.locked);
+  return plan;
+}

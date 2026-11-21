@@ -1,6 +1,6 @@
 // Appens tillstånd: planen (sparas), markering, verktyg och ångra-historik.
 
-import { buildDefaultPlan, S } from './plan.js';
+import { buildDefaultPlan, buildEmptyPlan, S } from './plan.js';
 import { sanitizePlan } from './sanitize.js';
 
 const KEY = 'moblera-plan-v1';
@@ -45,7 +45,8 @@ export function init() {
   if (!EMBED) {
     try { const raw = localStorage.getItem(KEY); if (raw) s = sanitizePlan(JSON.parse(raw)); } catch { /* börja från originalet */ }
   }
-  app.state = s || buildDefaultPlan();
+  // inbäddad: börja omöblerad tills sidan runt omkring öppnar en design
+  app.state = s || (EMBED ? buildEmptyPlan() : buildDefaultPlan());
   if (!EMBED) {
     if (!app.state.islandKitchen) islandKitchen(app.state);
     if (!app.state.cornerRoom) cornerRoom(app.state);
@@ -62,7 +63,8 @@ export function init() {
  */
 export function openDesign(key, saved) {
   draftKey = `moblera-draft-${String(key).replace(/[^A-Za-z0-9_-]/g, '')}`;
-  const base = saved ? sanitizePlan(saved) : buildDefaultPlan();
+  // ett nytt förslag börjar med bara det som finns på planritningen, utan lösa möbler
+  const base = saved ? sanitizePlan(saved) : buildEmptyPlan();
   baseline = JSON.stringify(base);
   let state = base;
   try {
@@ -174,7 +176,7 @@ export function replaceState(s) {
   app.sel = null;
   commit();
 }
-export const resetPlan = () => replaceState(buildDefaultPlan());
+export const resetPlan = () => replaceState(EMBED ? buildEmptyPlan() : buildDefaultPlan());
 
 /** Skala om hela planen (väggar, öppningar, möblers lägen) med en faktor. Möblernas egna mått ändras inte. */
 export function rescale(f) {

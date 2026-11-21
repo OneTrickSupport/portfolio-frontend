@@ -66,8 +66,9 @@ export default function PlannerGallery() {
           Hur skulle du möblera lägenheten?
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          Här är min nya lägenhet på 94 m², ritad i 2D och 3D. Flytta möbler, byt soffa, bygg om väggar. Du behöver
-          inte logga in för att prova. Vill du spara ditt förslag så att andra kan se det loggar du in först.
+          Här är min nya lägenhet på 94 m², ritad i 2D och 3D. Den är omöblerad: ställ in soffor, sängar och lampor
+          från katalogen, och bygg om väggar om du vill. Du behöver inte logga in för att prova. Vill du spara ditt
+          förslag så att andra kan se det loggar du in först.
         </p>
         <Button asChild size="lg">
           <Link to="/planner/new">
