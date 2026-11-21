@@ -1,7 +1,7 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Header from "@/components/Header";
+import ScrollToHash from "@/components/ScrollToHash";
 import Home from "@/pages/Home";
-import Demo from "@/pages/Demo";
 import Callback from "@/pages/Callback";
 import SignIn from "@/pages/SignIn";
 import PlannerGallery from "@/pages/planner/Gallery";
@@ -20,10 +20,10 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
+      <ScrollToHash />
       <Routes>
         <Route element={<Page />}>
           <Route path="/" element={<Home />} />
-          <Route path="/demo" element={<Demo />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/planner" element={<PlannerGallery />} />

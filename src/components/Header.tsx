@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+// Sections of the home page. Rendered as router links to "/#section" so they work from any page.
 const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
@@ -57,22 +58,15 @@ export default function Header() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-6">
             {NAV_LINKS.map(({ href, label }) => (
-              <a
+              <Link
                 key={href}
-                href={href}
+                to={`/${href}`}
                 style={monoStyle}
                 className="uppercase text-muted-foreground hover:text-foreground transition-colors"
               >
                 {label}
-              </a>
+              </Link>
             ))}
-            <Link
-              to="/demo"
-              style={monoStyle}
-              className="uppercase text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Demo
-            </Link>
             <Link
               to="/planner"
               style={monoStyle}
@@ -117,24 +111,16 @@ export default function Header() {
             <SheetContent side="right" className="flex flex-col gap-0 pt-12">
               <nav className="flex flex-col divide-y divide-border">
                 {NAV_LINKS.map(({ href, label }) => (
-                  <a
+                  <Link
                     key={href}
-                    href={href}
+                    to={`/${href}`}
                     onClick={closeMobile}
                     style={monoStyle}
                     className="py-4 uppercase text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {label}
-                  </a>
+                  </Link>
                 ))}
-                <Link
-                  to="/demo"
-                  onClick={closeMobile}
-                  style={monoStyle}
-                  className="py-4 uppercase text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Demo
-                </Link>
                 <Link
                   to="/planner"
                   onClick={closeMobile}

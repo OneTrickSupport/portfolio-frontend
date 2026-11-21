@@ -30,13 +30,6 @@ export async function api<T = unknown>(
   return (await res.json()) as T;
 }
 
-export type Item = {
-  userId: string;
-  itemId: string;
-  content: string;
-  createdAt: string;
-};
-
 export type ActivityItem = {
   id: string;
   kind: "commit" | "pull_request" | "release" | "repo";

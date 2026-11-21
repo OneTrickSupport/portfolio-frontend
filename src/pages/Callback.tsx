@@ -9,7 +9,7 @@ export default function Callback() {
 
   useEffect(() => {
     if (!loading) {
-      navigate(user ? takeReturnTo("/demo") : "/", { replace: true });
+      navigate(user ? takeReturnTo("/planner") : "/", { replace: true });
     }
   }, [loading, user, navigate]);
 

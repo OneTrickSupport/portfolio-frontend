@@ -61,6 +61,10 @@
   html {
     scroll-behavior: smooth;
   }
+  /* Sections the header links scroll to: stop just below the sticky header. */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;

@@ -29,7 +29,7 @@ export default function SignIn() {
     try {
       const result = await signIn({ username: email, password });
       if (result.isSignedIn) {
-        navigate(takeReturnTo("/demo"), { replace: true });
+        navigate(takeReturnTo("/planner"), { replace: true });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign in failed");
@@ -69,7 +69,7 @@ export default function SignIn() {
       await confirmSignUp({ username: email, confirmationCode: code });
       const result = await signIn({ username: email, password });
       if (result.isSignedIn) {
-        navigate(takeReturnTo("/demo"), { replace: true });
+        navigate(takeReturnTo("/planner"), { replace: true });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Confirmation failed");
