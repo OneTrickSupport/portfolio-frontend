@@ -21,6 +21,8 @@ export type Design = DesignSummary & {
   state: unknown;
   mine: boolean;
   likedByMe: boolean;
+  /** The signed-in user is a site moderator and may delete this design and any comment on it. */
+  canModerate?: boolean;
 };
 
 export type PlannerComment = {

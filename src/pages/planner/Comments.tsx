@@ -38,7 +38,8 @@ export default function Comments({ design, open, onOpenChange, userId, onSignIn 
     onSuccess: refresh,
   });
 
-  const canDelete = (c: PlannerComment) => !!userId && (c.userId === userId || design.mine);
+  // Your own comments, any comment on your own design, and everything if you are a moderator.
+  const canDelete = (c: PlannerComment) => !!userId && (c.userId === userId || design.mine || !!design.canModerate);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

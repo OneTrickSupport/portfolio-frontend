@@ -107,7 +107,7 @@ export default function PlannerEditor() {
         // The planner already shows this plan, so mark it as the saved version of the new design.
         p?.markSaved(saved.designId);
         opened.current = saved.designId;
-        const full: Design = { ...saved, state, mine: true, likedByMe: false };
+        const full: Design = { ...saved, state, mine: true, likedByMe: false, canModerate: d?.canModerate ?? false };
         qc.setQueryData(["planner", "design", saved.designId, user?.userId ?? null], full);
         setTitle(saved.title);
         setNaming(null);
@@ -172,6 +172,8 @@ export default function PlannerEditor() {
   }
 
   const mine = !!d?.mine;
+  // Moderators can delete other people's designs (but not change them).
+  const canDelete = mine || !!d?.canModerate;
   const titleChanged = mine && title.trim() !== "" && title.trim() !== d!.title;
   const busy = save.isPending || remove.isPending;
 
@@ -281,10 +283,10 @@ export default function PlannerEditor() {
             </Button>
           )}
 
-          {mine &&
+          {canDelete &&
             (confirmDelete ? (
               <span className="flex items-center gap-2 text-sm">
-                Ta bort förslaget?
+                {mine ? "Ta bort förslaget?" : `Ta bort ${d!.ownerName}s förslag?`}
                 <Button variant="destructive" size="sm" disabled={busy} onClick={() => remove.mutate()}>
                   Ja, ta bort
                 </Button>
@@ -293,7 +295,7 @@ export default function PlannerEditor() {
                 </Button>
               </span>
             ) : (
-              <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="Ta bort förslaget" onClick={() => setConfirmDelete(true)}>
+              <Button variant="ghost" size="icon" className="h-9 w-9" aria-label={mine ? "Ta bort förslaget" : "Ta bort förslaget (moderator)"} title={mine ? "Ta bort förslaget" : "Ta bort som moderator"} onClick={() => setConfirmDelete(true)}>
                 <Trash2 className="h-4 w-4" />
               </Button>
             ))}
