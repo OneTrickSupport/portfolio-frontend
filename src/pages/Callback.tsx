@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { takeReturnTo } from "@/lib/return-to";
 
 export default function Callback() {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ export default function Callback() {
 
   useEffect(() => {
     if (!loading) {
-      navigate(user ? "/demo" : "/", { replace: true });
+      navigate(user ? takeReturnTo("/demo") : "/", { replace: true });
     }
   }, [loading, user, navigate]);
 

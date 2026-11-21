@@ -8,6 +8,7 @@ import {
 } from "aws-amplify/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { takeReturnTo } from "@/lib/return-to";
 
 type Step = "signin" | "signup" | "confirm";
 
@@ -28,7 +29,7 @@ export default function SignIn() {
     try {
       const result = await signIn({ username: email, password });
       if (result.isSignedIn) {
-        navigate("/demo", { replace: true });
+        navigate(takeReturnTo("/demo"), { replace: true });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign in failed");
@@ -68,7 +69,7 @@ export default function SignIn() {
       await confirmSignUp({ username: email, confirmationCode: code });
       const result = await signIn({ username: email, password });
       if (result.isSignedIn) {
-        navigate("/demo", { replace: true });
+        navigate(takeReturnTo("/demo"), { replace: true });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Confirmation failed");

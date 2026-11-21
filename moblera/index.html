@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Möblera</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%2317212b'/%3E%3Cpath d='M7 25V8h18v17M7 16h8M19 16h6' fill='none' stroke='%23f4c430' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="bar">
+      <button class="iconbtn only-narrow" id="toggleLeft" aria-label="Visa katalogen">☰</button>
+      <div class="brand">Möblera</div>
+
+      <div class="seg" id="viewSeg" role="tablist" aria-label="Vy">
+        <button data-view="2d" role="tab">Plan</button>
+        <button data-view="3d" role="tab">3D</button>
+      </div>
+
+      <label class="roompick" title="Visa hela lägenheten eller arbeta med ett rum i taget">
+        <span class="lbl">Visa</span>
+        <select id="roomSel" aria-label="Vilket rum som visas"></select>
+      </label>
+
+      <div class="group" id="tools2d">
+        <div class="seg" id="toolSeg" aria-label="Verktyg">
+          <button data-tool="select" title="Flytta och rotera möbler">Möblera</button>
+          <button data-tool="walls" title="Flytta väggar, dörrar och fönster">Väggar</button>
+          <button data-tool="draw" title="Klicka ut en ny vägg">Rita vägg</button>
+          <button data-tool="measure" title="Mät mellan två punkter">Mät</button>
+        </div>
+        <label class="check"><input type="checkbox" id="optDims"> Mått</label>
+        <label class="check" hidden><input type="checkbox" id="optOverlay"> Originalritning</label>
+      </div>
+
+      <div class="group" id="tools3d" hidden>
+        <span class="lbl">Väggar</span>
+        <div class="seg" id="wallSeg">
+          <button data-wm="auto" title="Väggarna närmast dig sänks så att du ser in">Öppna</button>
+          <button data-wm="low">Låga</button>
+          <button data-wm="full">Hela</button>
+        </div>
+        <button class="btn" id="btnWalk">Gå runt</button>
+        <button class="btn" id="btnTop">Ovanifrån</button>
+        <button class="btn" id="btnResetCam">Återställ vyn</button>
+        <button class="btn" id="btnShot">Spara bild</button>
+      </div>
+
+      <div class="spacer"></div>
+      <button class="btn" id="btnUndo" title="Ångra (⌘Z)">Ångra</button>
+      <button class="btn" id="btnRedo" title="Gör om (⇧⌘Z)">Gör om</button>
+      <details class="menu" id="fileMenu">
+        <summary class="btn">Arkiv</summary>
+        <div class="menu-body">
+          <button id="btnExport">Spara planen som fil</button>
+          <button id="btnImport">Öppna en sparad plan</button>
+          <button id="btnReset" class="danger">Börja om från originalritningen</button>
+          <div id="resetConfirm" hidden>
+            <p>Alla ändringar försvinner. Vill du börja om?</p>
+            <button id="btnResetYes" class="danger">Ja, börja om</button>
+            <button id="btnResetNo">Avbryt</button>
+          </div>
+        </div>
+      </details>
+      <input type="file" id="fileInput" accept="application/json,.json" hidden>
+      <button class="iconbtn only-narrow" id="toggleRight" aria-label="Visa egenskaper">⚙</button>
+    </header>
+
+    <aside class="left" id="left">
+      <div class="tabs" role="tablist">
+        <button data-tab="catalog" role="tab">Möbler</button>
+        <button data-tab="rooms" role="tab">Rum</button>
+        <button data-tab="shop" role="tab">Inköp</button>
+      </div>
+      <div class="tabbody" id="tab-catalog"></div>
+      <div class="tabbody" id="tab-rooms" hidden></div>
+      <div class="tabbody" id="tab-shop" hidden></div>
+    </aside>
+
+    <main class="stage" id="stage">
+      <svg id="plan2d" aria-label="Planritning"></svg>
+      <div id="view3d" hidden></div>
+      <div class="zoom" id="zoom2d">
+        <button id="zIn" aria-label="Zooma in">+</button>
+        <button id="zOut" aria-label="Zooma ut">−</button>
+        <button id="zFit" title="Visa hela planen">Hela</button>
+      </div>
+      <div class="hint" id="hint" hidden></div>
+      <div class="titleblock" id="titleblock"></div>
+      <div class="toast" id="toast"></div>
+    </main>
+
+    <aside class="right" id="props"></aside>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

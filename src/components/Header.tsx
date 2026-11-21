@@ -73,6 +73,13 @@ export default function Header() {
             >
               Demo
             </Link>
+            <Link
+              to="/planner"
+              style={monoStyle}
+              className="uppercase text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Planner
+            </Link>
           </nav>
         </div>
 
@@ -127,6 +134,14 @@ export default function Header() {
                   className="py-4 uppercase text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Demo
+                </Link>
+                <Link
+                  to="/planner"
+                  onClick={closeMobile}
+                  style={monoStyle}
+                  className="py-4 uppercase text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Planner
                 </Link>
               </nav>
 
