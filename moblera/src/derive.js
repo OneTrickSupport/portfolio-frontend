@@ -191,13 +191,19 @@ function roomDims(poly, walls) {
     do { len += dist(poly[j % n], poly[(j + 1) % n]); t = Math.max(t, tOf(j % n)); j++; count++; } while (count < n && !turn(j % n));
     const a = poly[i % n], b = poly[j % n], d = dir(i % n);
     const prevI = (i - 1 + n) % n, nextI = j % n;
-    const corner = (k) => { const q = dir(k); const sin = Math.abs(d[0] * q[1] - d[1] * q[0]); return sin > 0.5 ? tOf(k) / 2 / sin : 0; };
-    const ca = corner(prevI), cb = corner(nextI);
+    const mid = lerp(a, b, 0.5);
+    let nrm = [-d[1], d[0]], side = 1;
+    if (!pointInPoly([mid[0] + nrm[0] * (t / 2 + 6), mid[1] + nrm[1] * (t / 2 + 6)], poly)) { nrm = [-nrm[0], -nrm[1]]; side = -1; }
+    // Hur långt in från hörnet väggytan börjar: där den möter grannväggens yta. Stämmer också för sneda
+    // väggar, och blir negativt i ett utåtgående hörn (ytan är då längre än mittlinjen).
+    const corner = (k, end) => {
+      const q = dir(k), cross = d[0] * q[1] - d[1] * q[0];
+      if (Math.abs(cross) <= 0.5) return 0;
+      return (end * side * (tOf(k) / 2 - (d[0] * q[0] + d[1] * q[1]) * (t / 2))) / cross;
+    };
+    const ca = corner(prevI, -1), cb = corner(nextI, 1);
     const inner = len - ca - cb;
     if (inner > 60) {
-      const mid = lerp(a, b, 0.5);
-      let nrm = [-d[1], d[0]];
-      if (!pointInPoly([mid[0] + nrm[0] * (t / 2 + 6), mid[1] + nrm[1] * (t / 2 + 6)], poly)) nrm = [-nrm[0], -nrm[1]];
       const pa = [a[0] + d[0] * ca + nrm[0] * (t / 2), a[1] + d[1] * ca + nrm[1] * (t / 2)];
       const pb = [b[0] - d[0] * cb + nrm[0] * (t / 2), b[1] - d[1] * cb + nrm[1] * (t / 2)];
       // motstående väggar är oftast lika långa: visa måttet en gång per rum

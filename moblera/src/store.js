@@ -1,7 +1,11 @@
 // Appens tillstånd: planen (sparas), markering, verktyg och ångra-historik.
 
-import { buildDefaultPlan, buildEmptyPlan, S } from './plan.js';
+import { at, buildDefaultPlan, buildEmptyPlan } from './plan.js';
 import { sanitizePlan } from './sanitize.js';
+import { migratePlan } from './migrate.js';
+
+/** En plan utifrån (lagring, sparad design, fil): städad och flyttad till den uppmätta geometrin. */
+const load = (raw) => migratePlan(sanitizePlan(raw));
 
 const KEY = 'moblera-plan-v1';
 
@@ -43,7 +47,7 @@ function save(s) {
 export function init() {
   let s = null;
   if (!EMBED) {
-    try { const raw = localStorage.getItem(KEY); if (raw) s = sanitizePlan(JSON.parse(raw)); } catch { /* börja från originalet */ }
+    try { const raw = localStorage.getItem(KEY); if (raw) s = load(JSON.parse(raw)); } catch { /* börja från originalet */ }
   }
   // inbäddad: börja omöblerad tills sidan runt omkring öppnar en design
   app.state = s || (EMBED ? buildEmptyPlan() : buildDefaultPlan());
@@ -64,12 +68,12 @@ export function init() {
 export function openDesign(key, saved) {
   draftKey = `moblera-draft-${String(key).replace(/[^A-Za-z0-9_-]/g, '')}`;
   // ett nytt förslag börjar med bara det som finns på planritningen, utan lösa möbler
-  const base = saved ? sanitizePlan(saved) : buildEmptyPlan();
+  const base = saved ? load(saved) : buildEmptyPlan();
   baseline = JSON.stringify(base);
   let state = base;
   try {
     const raw = localStorage.getItem(draftKey);
-    if (raw && raw !== baseline) state = sanitizePlan(JSON.parse(raw));
+    if (raw && raw !== baseline) state = load(JSON.parse(raw));
   } catch { /* trasigt utkast: visa den sparade versionen */ }
   app.state = state;
   app.sel = null;
@@ -97,7 +101,7 @@ export function discardDraft() {
 /** Engångsändring av en sparad plan: hörnrummet töms och får ett runt bord med stolar. */
 function cornerRoom(s) {
   const fresh = buildDefaultPlan().items.filter((it) => it.corner);
-  const x0 = (423 - 80) * S, x1 = (663 - 80) * S, y0 = (523 - 70) * S, y1 = (751 - 70) * S;
+  const [x0, y0] = at(423, 523), [x1, y1] = at(663, 751);
   s.items = s.items.filter((it) => it.locked || !(it.x > x0 && it.x < x1 && it.y > y0 && it.y < y1));
   for (const it of fresh) s.items.push({ ...it, id: s.nextId++ });
   s.cornerRoom = true;
@@ -172,7 +176,7 @@ export function setFocus(id) {
 export const newId = () => app.state.nextId++;
 
 export function replaceState(s) {
-  app.state = sanitizePlan(s);
+  app.state = load(s);
   app.sel = null;
   commit();
 }
